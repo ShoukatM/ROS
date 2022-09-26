@@ -1,0 +1,96 @@
+https://forums.developer.nvidia.com/t/warning-pkg-get-support-nvidia-driver-390-and-warning-pkg-get-support-nvidia-driver-510/204760/17
+Required information:
+
+    Operating system and version:
+        Ubuntu 18.04
+    Autoware installation type:
+        From source
+    Autoware version or commit hash
+        1.11.0
+    ROS distribution and version:
+        ROS Melodic
+    ROS installation type:
+        From binaries
+
+
+https://github.com/Autoware-AI/autoware.ai/wiki/Source-Build
+https://github.com/CPFL/Autoware-Manuals/blob/master/en/Autoware_UsersManual_v1.1.md#runtime-manager-computing-tab
+https://gitlab.com/autowarefoundation/autoware.ai/autoware/-/wikis/Source-Build
+http://wiki.ros.org/melodic/Installation/Ubuntu
+
+
+
+You can check which those might be with:
+
+dpkg -l | grep -i cuda
+dpkg -l | grep -i nvidia 450.12.01
+
+So maybe try either
+sudo apt-get remove --purge cuda-* libcuda* nvidia* 
+
+for the whole batch) or select more specifically like:
+
+sudo apt-get remove --purge cuda-drivers libcuda* cuda-runtime* cuda-8-0 cuda-demo*
+
+For me specifially (after trying a failed install of cuda-8-0 and libcudnn6) it was:
+
+sudo apt-get remove --purge nvidia* cuda-drivers libcuda* cuda-runtime* cuda-8-0 cuda-
+/***************************************************************************************************************************/
+install-cuda-10-bionic.sh
+# WARNING: These steps seem to not work anymore!
+
+#!/bin/bash
+
+# Purge existign CUDA first
+sudo apt --purge remove "cublas*" "cuda*"
+sudo apt --purge remove "nvidia*"
+
+# Install CUDA Toolkit 10
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub && sudo apt update
+sudo dpkg -i cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+
+sudo apt update
+sudo apt install -y cuda
+
+# Install CuDNN 7 and NCCL 2
+wget https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+sudo dpkg -i nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+
+sudo apt update
+sudo apt install -y libcudnn7 libcudnn7-dev libnccl2 libc-ares-dev
+
+sudo apt autoremove
+sudo apt upgrade
+
+# Link libraries to standard locations
+sudo mkdir -p /usr/local/cuda-10.0/nccl/lib
+sudo ln -s /usr/lib/x86_64-linux-gnu/libnccl.so.2 /usr/local/cuda/nccl/lib/
+sudo ln -s /usr/lib/x86_64-linux-gnu/libcudnn.so.7 /usr/local/cuda-10.0/lib64/
+
+echo 'If everything worked fine, reboot now.'
+
+/**********************************************************************************************/
+sudo apt-get install gstreamer0.10-plugins-good
+configure: error: Could not find bison
+./configure --prefix /home/$acclivis/devdirs/gst-$0.10.0/local PKG_CONFIG_PATH=/home/$acclivis/devdirs/gst-$0.10.0/local/lib/pkgconfig CFLAGS="-O0 -ggdb3"
+
+https://wikimho.com/us/q/askubuntu/16225/how-can-i-accept-the-microsoft-eula-agreement-for-ttf-mscorefonts-installer
+
+/******************************Issues**************************************/
+The class required for this panel, 'autoware_launcher_rviz::ModulePanel', could not be loaded.
+https://github.com/Autoware-AI/autoware.ai/issues/2402
+https://answers.ros.org/question/398362/vehicle-model-not-added-in-rvizautowareai-111/
+
+autoware.ai/ros/install/adi_driver' in the environment variable CMAKE_PREFIX_PATH doesn't exist
+
+WARNING:colcon.colcon_cmake.task.cmake.build:Could not run installation step for package 'ndt_gpu' because it has no 'install' target
+https://answers.ros.org/question/326530/enable-gpu-in-autoware-failed-to-build-with-autoware_compile_with_cuda1-colcon-release/#349295
+https://www.videogames.ai/Install-CUDA-10-Ubuntu-18-04-18-10
+https://askubuntu.com/questions/1039856/downgrade-gnu-compilers-ubuntu-18-04
+https://github.com/Autoware-AI/simulation/issues/6
+
+
+https://www.svlsimulator.com/docs/archive/2020.06/autoware-instructions/
+https://www.codetd.com/en/article/12224072
+https://tutorialforlinux.com/2018/05/05/how-to-install-python-3-wxpython-for-ubuntu-18-04-bionic-easy-guide/2/

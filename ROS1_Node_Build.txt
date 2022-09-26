@@ -1,0 +1,48 @@
+
+
+https://github.com/lgsvl/simulator/issues/1406
+
+
+
+
+
+
+
+Create and build a package in autoware docker
+
+    Creating a workspace for catkin
+    http://wiki.ros.org/catkin/Tutorials/create_a_workspace
+    Creating a ROS Package
+    http://wiki.ros.org/ROS/Tutorials/CreatingPackage
+    Writing a Simple Publisher and Subscriber
+    http://wiki.ros.org/rospy_tutorials/Tutorials/WritingPublisherSubscriber
+
+# 1. Creating a workspace for catkin
+mkdir -p catkin_ws/src && cd catkin_ws
+catkin_make
+
+# 2. Creating a ROS Package
+$cd catkin_ws/src
+$catkin_create_pkg <package_name> std_msgs rospy roscpp
+# switch back to catkin_ws, source the generated setup file to add the workspace to your ROS environment
+$cd .. && . devel/setup.bash
+
+# 3. Create a publisher
+roscd <package_name>
+mkdir scripts && cd scripts
+wget https://raw.github.com/ros/ros_tutorials/kinetic-devel/rospy_tutorials/001_talker_listener/talker.py && chmod +x talker.py
+
+# Modify talker.py according your needs.. (it's a vim-like editor I guess) 
+rosed <package_name> talker.py
+
+# Building the nodes
+cd catkin_ws
+catkin_make
+
+# Running the nodes with rescore or runtime manager running in another terminal
+rescore
+**OR**
+roslaunch runtime_manager runtime_manager.launch
+
+# Back to the 1st terminal, run the talker node
+rosrun <package_name> talker.py
