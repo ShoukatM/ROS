@@ -1,0 +1,46 @@
+
+
+//Unistall Ros2
+
+
+$ sudo apt remove ros-* && sudo apt autoremove
+
+$ cd /etc/apt/sources.list.d/ && sudo rm ros2.list
+
+sudo apt autoremove
+sudo reboot
+
+
+
+//Uninstall NVIDIA
+
+
+sudo apt remove --purge nvidia-* && sudo apt autoremove --purge
+
+sudo apt clean
+
+
+
+
+///Node Build
+
+https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Py-Publisher-And-Subscriber.html
+
+
+
+colcon build --packages-select py_pubsub
+source install/setup.bash
+ros2 run py_pubsub listener 
+
+
+
+shoukat@shoukat-MS-7C02:~/bckp/Node$ colcon build --packages-select py_pubsub
+[1.352s] WARNING:colcon.colcon_core.prefix_path.colcon:The path '/home/shoukat/bckp-AWSIM/ros2_ws/install' in the environment variable COLCON_PREFIX_PATH doesn't exist
+
+soln: unset all path
+unset CMAKE_PREFIX_PATH
+ unset AMENT_PREFIX_PATH
+ 
+ 
+
+
